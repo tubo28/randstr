@@ -16,7 +16,8 @@ var (
 const (
 	// O01Il are omitted
 	digits  = "23456789"
-	alphas  = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+	lower   = "abcdefghijkmnopqrstuvwxyz"
+	upper   = "ABCDEFGHJKLMNPQRSTUVWXYZ"
 	symbols = `!#$%&*/?@`
 )
 
@@ -42,13 +43,13 @@ func main() {
 		subsets = append(subsets, digits)
 	}
 	if alnum || graph {
-		subsets = append(subsets, alphas)
+		subsets = append(subsets, lower, upper)
 	}
 	if graph {
 		subsets = append(subsets, symbols)
 	}
 	if subsets == nil {
-		subsets = append(subsets, digits, alphas)
+		subsets = append(subsets, digits, lower, upper)
 	}
 
 	var chars []byte
