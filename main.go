@@ -6,11 +6,13 @@ import (
 	"encoding/binary"
 	"flag"
 	"math/rand"
+	"strings"
 )
 
 var (
 	digit, alnum, graph bool
 	pattern             string
+	length              int
 )
 
 const (
@@ -27,6 +29,7 @@ func init() {
 	flag.BoolVar(&graph, "graph", false, "Digits + Latin alphabet + symbols")
 	flag.StringVar(&pattern, "pattern", "XXXXXXXXXXXXXXXX", "Pattern. Each X is replaced with a random character.")
 
+	flag.IntVar(&length, "length", 16, "Length of output")
 	var b [8]byte
 	_, err := crand.Read(b[:])
 	if err != nil {
@@ -37,6 +40,22 @@ func init() {
 
 func main() {
 	flag.Parse()
+
+	var p, l bool
+	flag.Visit(func(f *flag.Flag) {
+		if f.Name == "p" || f.Name == "pattern" {
+			p = true
+		}
+		if f.Name == "l" || f.Name == "length" {
+			l = true
+		}
+	})
+	if p && l {
+		panic("at most one of pattern and length must be set")
+	}
+	if l {
+		pattern = strings.Repeat("X", length)
+	}
 
 	var subsets []string
 	if digit || alnum || graph {
