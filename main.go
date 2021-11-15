@@ -24,12 +24,21 @@ const (
 )
 
 func init() {
+	flag.BoolVar(&digit, "d", false, "Shorthand for digit")
 	flag.BoolVar(&digit, "digit", false, "Digits")
+
+	flag.BoolVar(&alnum, "a", false, "Shorthand for alnum")
 	flag.BoolVar(&alnum, "alnum", false, "Digits + Latin alphabet (default)")
+
+	flag.BoolVar(&graph, "g", false, "Shorthand for graph")
 	flag.BoolVar(&graph, "graph", false, "Digits + Latin alphabet + symbols")
+
+	flag.StringVar(&pattern, "p", "XXXXXXXXXXXXXXXX", "Shorthand for pattern")
 	flag.StringVar(&pattern, "pattern", "XXXXXXXXXXXXXXXX", "Pattern. Each X is replaced with a random character.")
 
+	flag.IntVar(&length, "l", 16, "Shorthand for length")
 	flag.IntVar(&length, "length", 16, "Length of output")
+
 	var b [8]byte
 	_, err := crand.Read(b[:])
 	if err != nil {
@@ -43,10 +52,10 @@ func main() {
 
 	var p, l bool
 	flag.Visit(func(f *flag.Flag) {
-		if f.Name == "p" || f.Name == "pattern" {
+		if strings.HasPrefix(f.Name, "p") {
 			p = true
 		}
-		if f.Name == "l" || f.Name == "length" {
+		if strings.HasPrefix(f.Name, "l") {
 			l = true
 		}
 	})
