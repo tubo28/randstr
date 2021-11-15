@@ -2,24 +2,23 @@
 
 Generates random string.
 
-```shell
-$ go install github.com/tubo28/randstr@latest
-$ randstr --help
-Usage of $GOPATH/bin/randstr:
+```txt
+Usage of ./randstr:
+  -a	Shorthand for alnum
   -alnum
     	Digits + Latin alphabet (default)
+  -d	Shorthand for digit
   -digit
     	Digits
+  -g	Shorthand for graph
   -graph
-    	Digits + Latin alphabet + Symbols
+    	Digits + Latin alphabet + symbols
+  -l int
+    	Shorthand for length (default 16)
+  -length int
+    	Length of output (default 16)
+  -p string
+    	Shorthand for pattern (default "XXXXXXXXXXXXXXXX")
   -pattern string
     	Pattern. Each X is replaced with a random character. (default "XXXXXXXXXXXXXXXX")
-$ randstr
-6qf8PNUykE5Mb4tH
-$ randstr --pattern=XXXXXXXX --digit
-27844573
-$ randstr --pattern=XXXXXXXX --alnum
-7mHiYRd4
-$ randstr --pattern=XXXXXXXX --graph
-tvK?fgy6
 ```
