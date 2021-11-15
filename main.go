@@ -5,6 +5,7 @@ import (
 	crand "crypto/rand"
 	"encoding/binary"
 	"flag"
+	"fmt"
 	"math/rand"
 	"strings"
 )
@@ -110,5 +111,5 @@ func main() {
 	if !done {
 		panic("all generation attempts failed")
 	}
-	println(string(gen))
+	fmt.Println(string(gen))
 }
