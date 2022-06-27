@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"math/rand"
+	"os"
 	"strings"
 )
 
@@ -43,7 +44,7 @@ func init() {
 	var b [8]byte
 	_, err := crand.Read(b[:])
 	if err != nil {
-		panic("cannot get secure random seed")
+		fail("cannot get secure random seed")
 	}
 	rand.Seed(int64(binary.LittleEndian.Uint64(b[:])))
 }
@@ -61,7 +62,7 @@ func main() {
 		}
 	})
 	if p && l {
-		panic("at most one of pattern and length must be set")
+		fail("at most one of pattern and length must be set")
 	}
 	if l {
 		pattern = strings.Repeat("X", length)
@@ -109,7 +110,12 @@ func main() {
 		}
 	}
 	if !done {
-		panic("all generation attempts failed")
+		fail("all generation attempts failed")
 	}
 	fmt.Println(string(gen))
+}
+
+func fail(message string) {
+	fmt.Fprintln(os.Stderr, message)
+	os.Exit(1)
 }
