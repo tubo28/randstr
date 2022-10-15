@@ -21,4 +21,5 @@ Usage of ./randstr:
     	Shorthand for pattern (default "XXXXXXXXXXXXXXXX")
   -pattern string
     	Pattern. Each X is replaced with a random character. (default "XXXXXXXXXXXXXXXX")
+  -q	Do not show unimportant error messages (default true)
 ```

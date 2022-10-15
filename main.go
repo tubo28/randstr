@@ -8,10 +8,12 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 var (
+	quiet               bool
 	digit, alnum, graph bool
 	pattern             string
 	length              int
@@ -26,6 +28,8 @@ const (
 )
 
 func init() {
+	flag.BoolVar(&quiet, "q", true, "Do not show unimportant error messages")
+
 	flag.BoolVar(&digit, "d", false, "Shorthand for digit")
 	flag.BoolVar(&digit, "digit", false, "Digits")
 
@@ -112,7 +116,35 @@ func main() {
 	if !done {
 		fail("all generation attempts failed")
 	}
-	fmt.Println(string(gen))
+
+	s := string(gen)
+	fmt.Println(s)
+
+	d, err := os.UserHomeDir()
+	if err != nil {
+		if quiet {
+			return
+		} else {
+			fail("failed to detect home directory: " + err.Error())
+		}
+	}
+
+	f, err := os.OpenFile(filepath.Join(d, ".randstr"), os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		if quiet {
+			return
+		} else {
+			fail("failed to open generation log: " + err.Error())
+		}
+	}
+
+	if _, err := fmt.Fprint(f, s, "\n"); err != nil {
+		if quiet {
+			return
+		} else {
+			fail("failed to write generation log: " + err.Error())
+		}
+	}
 }
 
 func fail(message string) {
